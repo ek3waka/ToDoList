@@ -1,0 +1,321 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+:root {
+    --card-width: 300px;
+    --card-height: 500px;
+}
+
+html, body, div, span, applet, object, iframe, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    background-color: hsla(226, 41%, 10%, 0.952);
+    color: white;
+    font-size: 16px;
+}
+
+.wrapper {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+
+header {
+    background-color: rgb(43 58 66);
+    height: 3rem;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    
+}
+
+main {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+footer {
+    background-color: rgb(43 58 66);
+    height: 3rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem
+}
+
+.legal-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+p {
+    font-family: 'Rubik', sans-serif;
+}
+
+button {
+    padding: 0;
+    border: none;
+    background-color: inherit;
+}
+
+.header-icon {
+    width: 24px;
+}
+
+
+.project-list {
+    padding-left: 1.5rem;
+    background-color: rgb(139, 137, 134);
+    width: 22rem;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem
+}
+
+.project-button, .add-project-button {
+    width: 20rem;
+    height: 3rem;
+    background-color: rgb(204, 204, 204);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.2rem 1rem;
+    gap: 1rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    transition: 0.15s ease-in-out;
+    
+}
+
+.project-button:hover, .add-project-button:hover {
+    background-color:rgb(158, 158, 158);
+}
+
+.add-project-button {
+    margin-top: 2rem;
+}
+
+.project-name, .add-project-text {
+    flex-grow: 1;
+    text-align: start;
+}
+
+.project-icon {
+    width: 28px;
+    aspect-ratio: 1 / 1;
+}
+
+.delete-project-button {
+    cursor: pointer;
+}
+
+.delete-project-button:hover {
+    width: 29px;
+}
+
+.project-container {
+    width: 800px;
+    background-color: rgb(182, 182, 182);
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    gap: 1rem
+}
+
+.project-title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+
+
+
+.todo-item {
+    width: 40rem;
+    height: 3rem;
+    background-color: rgb(136, 136, 136);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.2rem 1rem;
+    gap: 1rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    border-left: 0.5rem solid yellow;
+}
+
+.check-todo-item {
+    width: 36px;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(211, 211, 211);
+    border-radius: 50%;
+    border: 2px solid rgb(99, 99, 99);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.todo-text {
+    flex-grow: 1;
+}
+
+
+
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    
+    
+}
+
+.container-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: var(--card-width);
+    height: var(--card-height);
+    font-size: 1.1rem;
+    text-align: start;
+    line-height: 1.8rem;
+}
+
+.table {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    
+}
+
+.create-card {
+    height: 25rem;
+    width: 375px;
+    height: 350px;
+    padding-left: 2.5rem;
+    background-color: rgb(195, 156, 226);;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: flex-start;
+    border-radius: 0.8rem;
+}
+
+.create-card-title {
+    font-size: 1.5rem;
+}
+
+.create-card-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    justify-items: space-around;
+}
+
+.input-title {
+    height: 1.8rem;
+    width: 310px;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    padding-left: 0.5rem;
+    border: none;
+}
+
+.todo-date {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 2rem;
+    width: 320px;
+    gap: 2rem;
+}
+
+.todo-priority {
+    width: 20rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem
+}
+
+
+.priority-title {
+    margin-right: 1.5rem;
+    flex-grow: 1;
+}
+
+.create-card-text {
+    font-size: 1.05rem;
+}
+
+.undone {
+    display: none;
+}
+
