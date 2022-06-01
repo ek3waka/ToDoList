@@ -9,8 +9,12 @@ let projectArray = []
 class Project {
     constructor (title) {
         this.title = title
-        let todos = []
+        this.todos = []
     }
+    addToDoToProject(toDo) {
+        this.todos.push(toDo)
+    }
+    
 }
 
 class DisplayProject {
@@ -38,7 +42,7 @@ class DisplayProject {
 }
 
 class CreateAddButton {
-    createAddButton() {
+    createAddButton(whatToCreate) {
         const addProjectButton = document.createElement('button')
         addProjectButton.classList.add('project-button', 'add-project-button')
 
@@ -48,13 +52,15 @@ class CreateAddButton {
         
         const addProjectTitle = document.createElement('p')
         addProjectTitle.classList.add('project-name')
-        addProjectTitle.textContent = 'Add Project'
+        addProjectTitle.textContent = `Add ${whatToCreate}`
 
         addProjectButton.append(addProjectIcon, addProjectTitle)
 
         return addProjectButton
     }
 }
+
+//закинуть бы создание общих компонентов куда-нибудь в другой модуль, ыыыы
 
 
 export {Project, DisplayProject, CreateAddButton}
