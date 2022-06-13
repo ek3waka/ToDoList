@@ -35,6 +35,21 @@ class DisplayToDo {
         dateIcon.src = Date
         dateIcon.classList.add('project-icon')
 
+
+        switch (todo.priority) {
+            case 'lowest': 
+                toDoItem.style.borderLeft = '0.5rem solid green'
+                break
+            
+            case 'highest': 
+                toDoItem.style.borderLeft = '0.5rem solid crimson'
+                break
+            
+            default: 
+                toDoItem.style.borderLeft = '0.5rem solid yellow'
+                
+        }
+
         const dueDateText = document.createElement('p')
         dueDateText.classList.add('due-date')
         dueDateText.textContent = todo.dueDate
@@ -61,24 +76,25 @@ class CreateProjectContainer {
         projectTitle.classList.add('project-title')
         projectTitle.textContent = project.title
 
-        
-
         const addToDo = new CreateAddButton
 
         const addToDoButton = addToDo.createAddButton('ToDo')
         
 
-        projectContainer.append(projectTitle, toDoContainer, addToDoButton)
+        projectContainer.append(projectTitle, addToDoButton)
 
 
         return projectContainer
     }
+
 
     createtoDoContainer() {
         const toDoContainer = document.createElement('div')
         toDoContainer.classList.add('todo-container')
         return toDoContainer
     }
+    
+    
 
 }
 

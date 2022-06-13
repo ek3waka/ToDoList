@@ -1,49 +1,121 @@
 import Plus from './plus-thick.png'
+import { CreateAddButton } from './project-list'
 
 class CreateCard {
     constructor(objectToCreate) {
         this.objectToCreate = objectToCreate
+        
+        this.card = document.createElement('div')
+        this.cardHeader = document.createElement('div')
+        this.cardTitle = document.createElement('p')
+        this.titleInput = document.createElement('input')
+        this.closeButton = document.createElement('button')
+        
     }
-    createMenu() {
-        const card = document.createElement('div')
-        card.classList.add('create-card')
 
-        const cardTitle = document.createElement('p')
-        cardTitle.classList.add('create-card-title')
-        cardTitle.textContent = `Create ${this.objectToCreate}`
-    
-        const form = document.createElement('form')
-        form.classList.add('create-card-form')
 
-        const input = document.createElement('input')
-        input.type = 'text'
-        input.placeholder = `${this.objectToCreate} Title`
-        input.classList.add('input-title')
 
-        const addButton = document.createElement('button')
-        addButton.classList.add('project-button', 'add-project-button')
+    createMenu() { 
 
-        const addImage = document.createElement('img')
-        addImage.src = Plus
-        addImage.classList.add('project-icon')
+        this.card.classList.add('create-card')
 
-        const buttonText = document.createElement('p')
-        buttonText.textContent = 'Add'
+        this.cardHeader.classList.add('cardHeader')
 
-        addButton.append(addImage, buttonText)
+        this.cardTitle.classList.add('create-card-title')
+        this.cardTitle.textContent = `Create ${this.objectToCreate}`
+        
+        this.closeButton.classList.add('closeButton')
+        this.closeButton.insertAdjacentHTML('afterbegin', '&times;');
+        this.closeButton.id = 'closeModal'
 
-        form.append(input, addButton)
+        this.cardHeader.append(this.cardTitle, this.closeButton)
 
-        card.append(cardTitle, form)
+        this.card.append(this.cardHeader, new CreateAddButton().createAddButton(''))
 
-        return card
+        return this.card
     }
+    createOverlay() {
+        const overlay = document.createElement('div')
+        overlay.id = 'overlay'
+        return overlay
+    }
+
+
 }
 
 class CreateProjectMenu extends CreateCard {
-    createProjectMenu() {
+    constructor(objectToCreate) {
+        super(objectToCreate)
+        this.form = document.createElement('form')
+
+        this.dateInputContainer = document.createElement('div')
+        this.dateInput = document.createElement('input')
+        this.dateP = document.createElement('p')
+
+        this.priorityInputContainer = document.createElement('div')
+        this.priority = document.createElement('p')
+
+        this.priorityLow = document.createElement('input')
+        this.priorityMedium = document.createElement('input')
+        this.priorityHigh = document.createElement('input')
+
+        this.priorityLowP = document.createElement('p')
+        this.priorityMediumP = document.createElement('p')
+        this.priorityHighP = document.createElement('p')
+
+
+        this.priorityLow.name = 'priority'
+        this.priorityMedium.name = 'priority'
+        this.priorityHigh.name = 'priority'
+
+        this.priorityLow.type = 'radio'
+        this.priorityMedium.type = 'radio'
+        this.priorityHigh.type = 'radio'
+
+        this.priorityLow.value = 'low'
+        this.priorityMedium.value = 'medium'
+        this.priorityHigh.value = 'high'
 
     }
+
+    createProjectMenu() {
+
+        this.form.classList.add('create-card-form')
+
+        this.titleInput.type = 'text'
+        this.titleInput.placeholder = `${this.objectToCreate} Title`
+        this.titleInput.classList.add('input-title')
+
+        this.form.append(this.titleInput)
+
+        this.dateInputContainer.classList.add('todo-date')
+        this.priorityInputContainer.classList.add('todo-priority')
+
+
+        this.dateInput.type = 'date'
+        this.dateInput.classList.add('todo-date-input')
+
+        this.dateP.classList.add('create-card-text')
+        this.dateP.textContent = 'Date'
+        this.dateInputContainer.append(this.dateP, this.dateInput)
+
+        this.priorityLowP.classList.add('create-card-text')
+        this.priorityMediumP.classList.add('create-card-text')
+        this.priorityHighP.classList.add('create-card-text')
+
+        this.priorityLowP.textContent = 'Low'
+        this.priorityMediumP.textContent = 'Medium'
+        this.priorityHighP.textContent = 'High'
+        
+        this.priorityMedium.checked = true
+
+        this.priorityInputContainer.append(this.priorityLow, this.priorityLowP, this.priorityMedium, this.priorityMediumP, this.priorityHigh, this.priorityHighP)
+        this.form.append(this.dateInputContainer, this.priorityInputContainer)
+        
+        return this.form
+        
+    }
+
     addProject() {
 
     }
@@ -51,7 +123,7 @@ class CreateProjectMenu extends CreateCard {
 
 class CreateTodoMenu {
     createTodoMenu() {
-
+         
     }
     addTodo(){
 
