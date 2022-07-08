@@ -213,17 +213,25 @@ projectList.addEventListener('click', function(evt) {
       main.removeChild(document.querySelector('.project-container'))
     }
     const targetProject = userProjectList.projects[evt.target.closest('.project-button').getAttribute('id')]
-    console.log(targetProject.todos)
     let showProject =  new CreateProjectContainer()
     let showProjectContainer = showProject.createprojectContainer(targetProject)
     let showToDos = showProject.createtoDoContainer(targetProject)
     main.append(showProjectContainer)
     for (let i=0; i < targetProject.todos.length; i++) {
-      let showtodoexample = new DisplayToDo().DOM(targetProject.todos[i])
+      let showtodoexample = new DisplayToDo().DOM(targetProject.todos[i], i)
       showToDos.append(showtodoexample)
     }
     showProjectContainer.append(showToDos)
     
+      showProjectContainer.addEventListener('click', function(evt) {
+        if(evt.target.closest('.check-todo-item')) {
+        let todo = evt.target.parentElement
+        evt.target.insertAdjacentHTML('afterbegin', '&#10004;');
+        const targetToDo = targetProject.todos[evt.target.closest('.todo-item').getAttribute('id')]
+        targetToDo.changeDone()
+        console.log(targetToDo)
+      }
+    })
     }
     })
 
@@ -242,14 +250,7 @@ let showProjectContainer = showProject.createprojectContainer(example)
 let showToDos = showProject.createtoDoContainer()  */
 
 
-/* showProjectContainer.addEventListener('click', function(evt) {
-  if(evt.target.closest('.check-todo-item')) {
-    let todo = evt.target.parentElement
-    evt.target.insertAdjacentHTML('afterbegin', '&#10004;');
-    console.log('1')
-    }
-  })
- */
+
 /* showToDos.append(showtodoexample, showtodoexample2, showtodoexample3)
 
 showProjectContainer.append(showToDos)

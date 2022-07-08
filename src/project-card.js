@@ -8,21 +8,20 @@ class ToDo {
         this.title = title
         this.dueDate = dueDate
         this.priority = priority
-        this.done = 'None'
+        this.done = false
     }
     changeDone() {
-        this.done
+        this.done = !this.done
     }
 }
 
 
 class DisplayToDo {
-    DOM(todo) {
-        
+    DOM(todo, id) {
         const toDoItem = document.createElement('div')
         toDoItem.classList.add('todo-item')
+        toDoItem.id = id
         
-
         const check = document.createElement('button')
         check.classList.add('check-todo-item')
 
@@ -34,7 +33,6 @@ class DisplayToDo {
         const dateIcon = document.createElement('img')
         dateIcon.src = Date
         dateIcon.classList.add('project-icon')
-
 
         switch (todo.priority) {
             case 'lowest': 

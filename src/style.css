@@ -87,6 +87,7 @@ header {
 }
 
 main {
+    width: 100%;
     flex: 1 1 auto;
     display: flex;
     align-items: stretch;
@@ -130,7 +131,7 @@ button {
     padding-left: 1.5rem;
     padding-top: 1.5rem;
     background-color: rgb(139, 137, 134);
-    width: 35rem;
+    width: 28rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem
@@ -180,7 +181,7 @@ button {
 }
 
 .project-container {
-    width: 100%;
+    flex-grow: 1;
     background-color: rgb(182, 182, 182);
     display: flex;
     flex-direction: column;
@@ -268,7 +269,7 @@ button {
     width: 375px;
     height: 350px;
     padding-left: 2.5rem;
-    background-color: rgb(195, 156, 226);;
+    background-color: rgb(195, 156, 226);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -279,6 +280,7 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+    visibility: hidden;
 }
 
 .cardHeader {
@@ -396,4 +398,13 @@ button {
   #overlay.active {
     opacity: 1;
     pointer-events: all;
+  }
+
+  .create-card.active {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  #Project {
+    order: 4;
   }

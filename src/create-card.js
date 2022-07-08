@@ -10,13 +10,10 @@ class CreateCard {
         this.cardTitle = document.createElement('p')
         this.titleInput = document.createElement('input')
         this.closeButton = document.createElement('button')
-        
     }
 
-
-
     createMenu() { 
-
+        this.card.id = `add${this.objectToCreate}Card`
         this.card.classList.add('create-card')
 
         this.cardHeader.classList.add('cardHeader')
@@ -25,25 +22,24 @@ class CreateCard {
         this.cardTitle.textContent = `Create ${this.objectToCreate}`
         
         this.closeButton.classList.add('closeButton')
-        this.closeButton.insertAdjacentHTML('afterbegin', '&times;');
+        this.closeButton.insertAdjacentHTML('afterbegin', '&times;')
         this.closeButton.id = 'closeModal'
 
         this.cardHeader.append(this.cardTitle, this.closeButton)
 
-        this.card.append(this.cardHeader, new CreateAddButton().createAddButton(''))
+        this.card.append(this.cardHeader, new CreateAddButton().createAddButton(`New${this.objectToCreate}`))
 
         return this.card
     }
+
     createOverlay() {
         const overlay = document.createElement('div')
         overlay.id = 'overlay'
         return overlay
     }
-
-
 }
 
-class CreateProjectMenu extends CreateCard {
+class CreateTodoMenu extends CreateCard {
     constructor(objectToCreate) {
         super(objectToCreate)
         this.form = document.createElement('form')
@@ -78,8 +74,7 @@ class CreateProjectMenu extends CreateCard {
 
     }
 
-    createProjectMenu() {
-
+    createTodoMenu() {
         this.form.classList.add('create-card-form')
 
         this.titleInput.type = 'text'
@@ -116,17 +111,23 @@ class CreateProjectMenu extends CreateCard {
         
     }
 
-    addProject() {
-
-    }
+   
 }
 
-class CreateTodoMenu {
-    createTodoMenu() {
-         
+class CreateProjectMenu extends CreateCard {
+    constructor(objectToCreate) {
+        super(objectToCreate)
+        this.form = document.createElement('form')
     }
-    addTodo(){
+    createProjectMenu() {
+        this.form.classList.add('create-card-form')
 
+        this.titleInput.type = 'text'
+        this.titleInput.placeholder = `${this.objectToCreate} Title`
+        this.titleInput.classList.add('input-title')
+
+        this.form.append(this.titleInput)
+        return this.form
     }
 }
 

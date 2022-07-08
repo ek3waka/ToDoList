@@ -2,7 +2,18 @@ import Checkbox from './format-list-checkbox.png'
 import Trash from './delete.png'
 import Plus from './plus-thick.png'
 
-
+class UserProjectList {
+    constructor () {
+        this.projects = []
+    }
+    
+    addProjectToProjectList(project) {
+        this.projects.push(project)
+    }
+    deleteProjectFromProjectList(projectIndex) {
+        this.projects.splice(projectIndex, 1)
+    }
+}
 
 let projectArray = []
 
@@ -17,13 +28,18 @@ class Project {
     
 }
 
+
+
 class DisplayProject {
-    constructor(project) {
+    constructor(project, id) {
         this.project = project
+        this.id = id
     }
     showProjectDOM() {
         const projectButton = document.createElement('button')
         projectButton.classList.add('project-button')
+        projectButton.id = this.id
+
 
         const projectIcon = document.createElement('img')
         projectIcon.classList.add('project-icon')
@@ -43,24 +59,25 @@ class DisplayProject {
 
 class CreateAddButton {
     createAddButton(whatToCreate) {
-        const addProjectButton = document.createElement('button')
-        addProjectButton.classList.add('project-button', 'add-project-button')
+        const addButton = document.createElement('button')
+        addButton.classList.add('project-button', 'add-project-button')
+        addButton.id = whatToCreate
 
-        const addProjectIcon = document.createElement('img')
-        addProjectIcon.classList.add('project-icon')
-        addProjectIcon.src = Plus
+        const addIcon = document.createElement('img')
+        addIcon.classList.add('project-icon')
+        addIcon.src = Plus
         
-        const addProjectTitle = document.createElement('p')
-        addProjectTitle.classList.add('project-name')
-        addProjectTitle.textContent = `Add ${whatToCreate}`
+        const addTitle = document.createElement('p')
+        addTitle.classList.add('project-name')
+        addTitle.textContent = `Add ${whatToCreate}`
 
-        addProjectButton.append(addProjectIcon, addProjectTitle)
+        addButton.append(addIcon, addTitle)
 
-        return addProjectButton
+        return addButton
     }
 }
 
 //закинуть бы создание общих компонентов куда-нибудь в другой модуль, ыыыы
 
 
-export {Project, DisplayProject, CreateAddButton}
+export {UserProjectList, Project, DisplayProject, CreateAddButton}
