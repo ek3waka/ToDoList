@@ -1,5 +1,6 @@
 import Cog from './cog.png'
 import Menu from './menu.png'
+import Check from './check-bold.png' //delete later when remove to module
 import './style.css'
 import {UserProjectList, Project, DisplayProject, CreateAddButton, ProjectList} from './project-list'
 import {CreateCard, CreateProjectMenu, CreateTodoMenu} from './create-card'
@@ -91,6 +92,7 @@ let input = addProject.createProjectMenu()
 
 card.append(input)
 wrapper.append(card)
+
 const overlay = addProject.createOverlay()
 body.append(overlay)
 
@@ -98,6 +100,7 @@ let addToDo = new CreateTodoMenu('ToDo')
 let cardToDo = addToDo.createMenu()
 let inputToDo = addToDo.createTodoMenu()
 cardToDo.append(inputToDo)
+wrapper.append(cardToDo)
 ///////////////////////////////
 
 
@@ -185,8 +188,8 @@ function closeModal(modal) {
 
 
 
-let todoexample = new ToDo('Do smth', '29.01.12', 'highest')
-let todoexample2 = new ToDo('todoexample2', '01.01.42', 'lowest')
+let todoexample = new ToDo('Do smth', '29.01.12', 'high')
+let todoexample2 = new ToDo('todoexample2', '01.01.42', 'low')
 let todoexample3 = new ToDo('todoexample3', '11.11.23', 'medium')
 
 example.addToDoToProject(todoexample)
@@ -225,17 +228,54 @@ projectList.addEventListener('click', function(evt) {
     
       showProjectContainer.addEventListener('click', function(evt) {
         if(evt.target.closest('.check-todo-item')) {
-        let todo = evt.target.parentElement
-        evt.target.insertAdjacentHTML('afterbegin', '&#10004;');
-        const targetToDo = targetProject.todos[evt.target.closest('.todo-item').getAttribute('id')]
-        targetToDo.changeDone()
-        console.log(targetToDo)
+          const targetToDo = targetProject.todos[evt.target.closest('.todo-item').getAttribute('id')]
+          targetToDo.changeDone()
+          const checked = document.createElement('img')
+          if (targetToDo.done === true) {
+            checked.classList.add('project-icon')
+            checked.src = Check
+            evt.target.append(checked)
+          } else {
+            evt.target.remove(checked)
+          }
+          
       }
+    })
+    const openAddToDo = document.querySelector('#ToDo')
+    openAddToDo.addEventListener('click', () => {
+      const modal = document.querySelector('#addToDoCard')
+      openModal(modal)
+      addToDoByName(modal, targetProject) 
+
     })
     }
     })
 
+function NormalizeDate(date) {
+  let dateDay = date[date.length-2] + date[date.length-1]
+  let monthDate = date[date.length-5] + date[date.length-4]
+  let yearDate = date[date.length-8] + date[date.length-7]
+  return `${dateDay}.${monthDate}.${yearDate}`
+}
 
+function addToDoByName(modal, targetProject) {
+  const addNewToDoButton = document.querySelector('#NewToDo')
+
+  addNewToDoButton.addEventListener('click', () => {
+      const todoContainer = document.querySelector('.todo-container')
+      const ToDoTitle = document.querySelector('input[placeholder="ToDo Title"]')
+      const ToDoDueDate = document.querySelector('.todo-date-input')
+      const ToDoPriority = document.querySelector('input[name="priority"]:checked')
+      
+      const todo = new ToDo(`${ToDoTitle.value}`, `${NormalizeDate(ToDoDueDate.value)}`, `${ToDoPriority.value}`)
+      
+      targetProject.addToDoToProject(todo)
+
+      todoContainer.append(new DisplayToDo().DOM(todo, targetProject.todos.length - 1))
+
+      closeModal(modal)
+    }, { once: true })
+}
 
 
 

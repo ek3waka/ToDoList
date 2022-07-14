@@ -1,5 +1,6 @@
 import Date from './calendar-clock.png'
 import Trash from './delete.png'
+import CheckIcon from './check-bold.png'
 import { CreateAddButton } from './project-list'
 
 
@@ -24,6 +25,13 @@ class DisplayToDo {
         
         const check = document.createElement('button')
         check.classList.add('check-todo-item')
+        
+        if (todo.done === true) {
+            const checked = document.createElement('img')
+            checked.classList.add('project-icon')
+            checked.src = CheckIcon
+            check.append(checked)
+        }
 
 
         const toDoText = document.createElement('p')
@@ -35,11 +43,11 @@ class DisplayToDo {
         dateIcon.classList.add('project-icon')
 
         switch (todo.priority) {
-            case 'lowest': 
+            case 'low': 
                 toDoItem.style.borderLeft = '0.5rem solid green'
                 break
             
-            case 'highest': 
+            case 'high': 
                 toDoItem.style.borderLeft = '0.5rem solid crimson'
                 break
             
