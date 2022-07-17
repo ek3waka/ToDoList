@@ -25,7 +25,9 @@ class Project {
     addToDoToProject(toDo) {
         this.todos.push(toDo)
     }
-    
+    deleteToDoFromProject(toDoIndex) {
+        this.todos.splice(toDoIndex, 1)
+    }
 }
 
 
@@ -60,7 +62,7 @@ class DisplayProject {
 class CreateAddButton {
     createAddButton(whatToCreate) {
         const addButton = document.createElement('button')
-        addButton.classList.add('project-button', 'add-project-button')
+        addButton.classList.add('add-project-button')
         addButton.id = whatToCreate
 
         const addIcon = document.createElement('img')

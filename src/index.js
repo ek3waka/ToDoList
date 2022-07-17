@@ -148,12 +148,7 @@ projectList.addEventListener('click', function(evt) {
 
 
 
-//где-то внутри проекта должно быть
-/* openAddToDo.addEventListener('click', () => {
-    const modal = document.querySelector('#addToDoCard')
-    openModal(modal)
-  })
- */
+
 overlay.addEventListener('click', () => {
   const modals = document.querySelectorAll('.create-card.active')
   modals.forEach(modal => {
@@ -176,15 +171,25 @@ function openModal(modal) {
 
 function closeModal(modal) {
   if (modal == null) return
-  const projectTitle = document.querySelector('.input-title')
-  projectTitle.value = ''
+  const titles = document.querySelectorAll('.input-title')
+  titles.forEach(title => {
+    title.value = ''
+  })
+  const date = document.querySelector('.todo-date-input')
+  const priorityMedium = document.querySelector('input[value="medium"]')
+  date.value = `${getDate()}`
+  priorityMedium.checked = true
   modal.classList.remove('active')
   overlay.classList.remove('active')
 }
 
 
-
-
+function getDate() {
+    let now = new Date()
+    let day = ("0" + now.getDate()).slice(-2)
+    let month = ("0" + (now.getMonth() + 1)).slice(-2)
+    return now.getFullYear() + "-" + (month) + "-" + (day)
+}
 
 
 
@@ -211,7 +216,7 @@ userProjectList.addProjectToProjectList(example2)
 
 
 projectList.addEventListener('click', function(evt) {
-  if(evt.target.closest('.project-button')) {
+  if(evt.target.closest('.project-button :not(.add-project-button)')) {
     if (document.querySelector('.project-container')) {
       main.removeChild(document.querySelector('.project-container'))
     }
@@ -226,8 +231,8 @@ projectList.addEventListener('click', function(evt) {
     }
     showProjectContainer.append(showToDos)
     
-      showProjectContainer.addEventListener('click', function(evt) {
-        if(evt.target.closest('.check-todo-item')) {
+    showProjectContainer.addEventListener('click', function(evt) {
+      if(evt.target.closest('.check-todo-item')) {
           const targetToDo = targetProject.todos[evt.target.closest('.todo-item').getAttribute('id')]
           targetToDo.changeDone()
           const checked = document.createElement('img')
@@ -238,18 +243,36 @@ projectList.addEventListener('click', function(evt) {
           } else {
             evt.target.remove(checked)
           }
-          
       }
     })
+
+    showProjectContainer.addEventListener('click', function(evt) {
+      if(evt.target.closest('.todo-item > .delete-project-button')) {
+        const todoContainer = document.querySelector('.todo-container')
+        const toDoToDelete = evt.target.getAttribute('id')
+        console.log(toDoToDelete)
+        targetProject.deleteToDoFromProject(toDoToDelete)
+        console.log(targetProject)
+        todoContainer.removeChild(evt.target.parentElement)
+        const toDosList = document.querySelectorAll('.todo-item')
+        const arr = Array.from(toDosList);
+        arr.forEach(todo => {
+          todo.id = arr.indexOf(toDosList)
+        })
+        }
+        })
+
     const openAddToDo = document.querySelector('#ToDo')
     openAddToDo.addEventListener('click', () => {
       const modal = document.querySelector('#addToDoCard')
       openModal(modal)
       addToDoByName(modal, targetProject) 
-
     })
     }
     })
+
+  
+
 
 function NormalizeDate(date) {
   let dateDay = date[date.length-2] + date[date.length-1]
@@ -275,27 +298,9 @@ function addToDoByName(modal, targetProject) {
 
       closeModal(modal)
     }, { once: true })
-}
+  }
 
 
-
-/* let showtodoexample = new DisplayToDo().DOM(todoexample)
-let showtodoexample2 = new DisplayToDo().DOM(todoexample2)
-let showtodoexample3 = new DisplayToDo().DOM(todoexample3)
- */
-
-/* let showProject =  new CreateProjectContainer()
-let showProjectContainer = showProject.createprojectContainer(example)
-
-let showToDos = showProject.createtoDoContainer()  */
-
-
-
-/* showToDos.append(showtodoexample, showtodoexample2, showtodoexample3)
-
-showProjectContainer.append(showToDos)
- */
-/* main.append(showProjectContainer) */
 
 menuBtn.addEventListener('click', () => {
     projectList.classList.toggle('hidden')

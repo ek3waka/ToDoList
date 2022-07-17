@@ -89,6 +89,7 @@ class CreateTodoMenu extends CreateCard {
 
         this.dateInput.type = 'date'
         this.dateInput.classList.add('todo-date-input')
+        this.dateInput.value = `${getDate()}`
 
         this.dateP.classList.add('create-card-text')
         this.dateP.textContent = 'Date'
@@ -129,6 +130,14 @@ class CreateProjectMenu extends CreateCard {
         this.form.append(this.titleInput)
         return this.form
     }
+}
+
+
+function getDate() {
+    let now = new Date()
+    let day = ("0" + now.getDate()).slice(-2)
+    let month = ("0" + (now.getMonth() + 1)).slice(-2)
+    return now.getFullYear() + "-" + (month) + "-" + (day)
 }
 
 export {CreateCard, CreateProjectMenu, CreateTodoMenu}

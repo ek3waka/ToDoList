@@ -14,6 +14,9 @@ class ToDo {
     changeDone() {
         this.done = !this.done
     }
+    getDone() {
+        return this.done
+    }
 }
 
 
@@ -81,7 +84,7 @@ class CreateProjectContainer {
         const projectTitle = document.createElement('div')
         projectTitle.classList.add('project-title')
         projectTitle.textContent = project.title
-
+        
         const addToDo = new CreateAddButton
 
         const addToDoButton = addToDo.createAddButton('ToDo')
