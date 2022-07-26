@@ -1,7 +1,7 @@
-import Plus from './plus-thick.png'
-import { CreateAddButton } from './project-list'
+import { CreateAddButton } from './show-common-components-DOM.js'
+import { normalizeDate, getDate } from '../Common functions module/data-functions.js'
 
-class CreateCard {
+class CreateModal {
     constructor(objectToCreate) {
         this.objectToCreate = objectToCreate
         
@@ -39,7 +39,7 @@ class CreateCard {
     }
 }
 
-class CreateTodoMenu extends CreateCard {
+class CreateTodoMenu extends CreateModal {
     constructor(objectToCreate) {
         super(objectToCreate)
         this.form = document.createElement('form')
@@ -109,13 +109,10 @@ class CreateTodoMenu extends CreateCard {
         this.form.append(this.dateInputContainer, this.priorityInputContainer)
         
         return this.form
-        
-    }
-
-   
+    }   
 }
 
-class CreateProjectMenu extends CreateCard {
+class CreateProjectMenu extends CreateModal {
     constructor(objectToCreate) {
         super(objectToCreate)
         this.form = document.createElement('form')
@@ -132,12 +129,4 @@ class CreateProjectMenu extends CreateCard {
     }
 }
 
-
-function getDate() {
-    let now = new Date()
-    let day = ("0" + now.getDate()).slice(-2)
-    let month = ("0" + (now.getMonth() + 1)).slice(-2)
-    return now.getFullYear() + "-" + (month) + "-" + (day)
-}
-
-export {CreateCard, CreateProjectMenu, CreateTodoMenu}
+export {CreateModal, CreateTodoMenu, CreateProjectMenu}

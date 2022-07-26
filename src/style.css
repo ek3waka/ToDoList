@@ -215,6 +215,10 @@ button {
     
 }
 
+.todo-item:hover {
+    background-color: rgb(145, 145, 145)
+}
+
 .check-todo-item {
     width: 32px;
     aspect-ratio: 1 / 1;
