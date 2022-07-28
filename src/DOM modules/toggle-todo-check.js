@@ -1,3 +1,5 @@
+import Check from '../Icons/check-bold.png'
+
 function toggleTodoCheck(evt, targetProject) {
     if(evt.target.closest('.check-todo-item')) {
         const targetToDo = targetProject.todos[evt.target.closest('.todo-item').getAttribute('id')]

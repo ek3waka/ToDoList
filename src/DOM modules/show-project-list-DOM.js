@@ -8,7 +8,11 @@ class CreateProjectContainer {
 
         const projectTitle = document.createElement('div')
         projectTitle.classList.add('project-title')
-        projectTitle.textContent = project.title
+
+        if (project.title == undefined) {
+            projectTitle.textContent = ''
+        } else { projectTitle.textContent = project.title }
+        
         
         const addToDo = new CreateAddButton
 

@@ -73,22 +73,45 @@ menuBtn.addEventListener('click', () => {
 
 const userProjectList = new UserProjectList()
 
-/////////////////
-let example = new Project('Project1')
-userProjectList.addProjectToProjectList(example)
-projectList.append(new DisplayProject(example, 0).displayProjectDOM())
 
-console.log(userProjectList)
+
+
+
+/////////////////
+if (localStorage.todolist == null) {
+    console.log('todolist not here')
+    let example = new Project('Project1')
+    userProjectList.addProjectToProjectList(example)
+    projectList.append(new DisplayProject(example, 0).displayProjectDOM())
+
+    let todoexample = new ToDo('Do smth', '29.12.22', 'high')
+    let todoexample2 = new ToDo('Do smth1', '01.01.23', 'low')
+    let todoexample3 = new ToDo('Do smth2', '11.11.23', 'medium')
+
+    example.addToDoToProject(todoexample)
+    example.addToDoToProject(todoexample2)
+    example.addToDoToProject(todoexample3)
+} else {
+    let userProjectListProjects = JSON.parse(localStorage.todolist)
+    userProjectList.projects = userProjectListProjects.projects.slice()
+    for (let i=0; i < userProjectList.projects.length; i++) {
+      projectList.append(new DisplayProject(userProjectList.projects[i], i).displayProjectDOM())
+    }
+}
+
 let addProjectButton = new CreateAddButton()
 projectList.append(addProjectButton.createAddButton('Project'))
 
-let todoexample = new ToDo('Do smth', '29.01.12', 'high')
-let todoexample2 = new ToDo('todoexample2', '01.01.42', 'low')
-let todoexample3 = new ToDo('todoexample3', '11.11.23', 'medium')
 
-example.addToDoToProject(todoexample)
-example.addToDoToProject(todoexample2)
-example.addToDoToProject(todoexample3)
+
+
+window.addEventListener('beforeunload', () => {
+    localStorage.todolist = JSON.stringify(userProjectList)
+})
+
+
+
+
 
 /////////////////////
 ///add project and todo modal
@@ -123,7 +146,7 @@ openAddProject.addEventListener('click', () => {
 })
 
 projectList.addEventListener('click', (evt) => deleteProject(evt, userProjectList, projectList)) 
-/////////////////////////
+
 
 overlay.addEventListener('click', () => {
   const modals = document.querySelectorAll('.create-card.active')
@@ -140,3 +163,4 @@ closeModalButtons.forEach(button => {
 })
 
 projectList.addEventListener('click',(evt) => showTodoList(evt, main, userProjectList))
+
