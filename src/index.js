@@ -74,9 +74,6 @@ menuBtn.addEventListener('click', () => {
 const userProjectList = new UserProjectList()
 
 
-
-
-
 /////////////////
 if (localStorage.todolist == null) {
     console.log('todolist not here')
@@ -93,7 +90,31 @@ if (localStorage.todolist == null) {
     example.addToDoToProject(todoexample3)
 } else {
     let userProjectListProjects = JSON.parse(localStorage.todolist)
-    userProjectList.projects = userProjectListProjects.projects.slice()
+    
+    let array= userProjectListProjects.projects.slice()
+    console.log(userProjectListProjects.projects[0].title)
+    
+
+    for (let i=0; i<userProjectListProjects.projects.length; i++) {
+        let project = new Project(userProjectListProjects.projects[i].title)
+
+        for (let j=0; j<userProjectListProjects.projects[i].todos.length; j++) {
+          let toDo = new ToDo(
+            userProjectListProjects.projects[i].todos[j].title, 
+            userProjectListProjects.projects[i].todos[j].dueDate,
+            userProjectListProjects.projects[i].todos[j].priority,
+            userProjectListProjects.projects[i].todos[j].done)
+          
+          project.addToDoToProject(toDo)
+          console.log(toDo)
+  
+        } 
+        userProjectList.addProjectToProjectList(project)
+        
+      }
+      console.log(userProjectList)
+
+
     for (let i=0; i < userProjectList.projects.length; i++) {
       projectList.append(new DisplayProject(userProjectList.projects[i], i).displayProjectDOM())
     }
