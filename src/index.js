@@ -92,7 +92,7 @@ if (localStorage.todolist == null) {
     let userProjectListProjects = JSON.parse(localStorage.todolist)
     
     let array= userProjectListProjects.projects.slice()
-    console.log(userProjectListProjects.projects[0].title)
+    
     
 
     for (let i=0; i<userProjectListProjects.projects.length; i++) {
@@ -106,13 +106,13 @@ if (localStorage.todolist == null) {
             userProjectListProjects.projects[i].todos[j].done)
           
           project.addToDoToProject(toDo)
-          console.log(toDo)
+          
   
         } 
         userProjectList.addProjectToProjectList(project)
         
       }
-      console.log(userProjectList)
+      
 
 
     for (let i=0; i < userProjectList.projects.length; i++) {
