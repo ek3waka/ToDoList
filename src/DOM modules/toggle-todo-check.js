@@ -14,6 +14,7 @@ function toggleTodoCheck(evt, targetProject) {
             evt.target.remove(checked)
         }
     }
+    console.log(targetProject)
 }
 
 export {toggleTodoCheck}

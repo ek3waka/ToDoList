@@ -1,9 +1,9 @@
 class ToDo {
-    constructor(title, dueDate, priority) {
+    constructor(title, dueDate, priority, done = false) {
         this.title = title
         this.dueDate = dueDate
         this.priority = priority
-        this.done = false
+        this.done = done
     }
     changeDone() {
         this.done = !this.done
