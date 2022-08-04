@@ -8,13 +8,16 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'ToDoList',
-      favicon: "./src/check-circle.png",
+      favicon: "./src/Icons/check-circle.png",
     }),
   ],
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+  },
+  resolve: {
+    extensions: ['.js', '.ts']
   },
   module: {
     rules: [

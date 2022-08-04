@@ -1,10 +1,21 @@
-import Cog from './cog.png'
-import Menu from './menu.png'
-import Check from './check-bold.png' //delete later when remove to module
+import Cog from './Icons/cog.png'
+import Menu from './Icons/menu.png'
 import './style.css'
-import {UserProjectList, Project, DisplayProject, CreateAddButton, ProjectList} from './project-list'
-import {CreateCard, CreateProjectMenu, CreateTodoMenu} from './create-card'
-import {ToDo, DisplayToDo, CreateProjectContainer} from './project-card'
+
+
+import { UserProjectList } from './Elements modules/create-project-list.js'
+import { Project } from './Elements modules/create-project.js'
+import { ToDo } from './Elements modules/create-todo'
+import { openModal, closeModal } from './Common functions module/modal-functions.js'
+import { CreateModal, CreateTodoMenu, CreateProjectMenu} from './DOM modules/show-modals-DOM'
+import { DisplayProject } from './DOM modules/show-project-DOM'
+import { CreateAddButton } from './DOM modules/show-common-components-DOM'
+import { deleteProject } from './DOM modules/delete-project-DOM'
+import { showTodoList } from './DOM modules/show-todo-list-DOM'
+import { addProjectByName } from './DOM modules/add-project-toDOM'
+import { addToDoByName } from './DOM modules/add-todo-toDOM'
+import { toggleTodoCheck } from './DOM modules/toggle-todo-check'
+import { deleteTodo } from './DOM modules/delete-todo-DOM'
 
 
 const body = document.querySelector('body')
@@ -56,32 +67,71 @@ legalInfo.append(siteName, copyRight)
 footer.appendChild(legalInfo)
 wrapper.append(main, footer)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+menuBtn.addEventListener('click', () => {
+  projectList.classList.toggle('hidden')
+})
 
 const userProjectList = new UserProjectList()
 
 
+/////////////////
+if (localStorage.todolist == null) {
+    console.log('todolist not here')
+    let example = new Project('Project1')
+    userProjectList.addProjectToProjectList(example)
+    projectList.append(new DisplayProject(example, 0).displayProjectDOM())
 
-let example = new Project('Project1')
-projectList.append(new DisplayProject(example, 0).showProjectDOM())
+    let todoexample = new ToDo('Do smth', '29.12.22', 'high')
+    let todoexample2 = new ToDo('Do smth1', '01.01.23', 'low')
+    let todoexample3 = new ToDo('Do smth2', '11.11.23', 'medium')
 
-let example2 = new Project('Example2')
-projectList.append(new DisplayProject(example2, 1).showProjectDOM())
+    example.addToDoToProject(todoexample)
+    example.addToDoToProject(todoexample2)
+    example.addToDoToProject(todoexample3)
+} else {
+    let userProjectListProjects = JSON.parse(localStorage.todolist)
+    
+    let array= userProjectListProjects.projects.slice()
+    
+    
+
+    for (let i=0; i<userProjectListProjects.projects.length; i++) {
+        let project = new Project(userProjectListProjects.projects[i].title)
+
+        for (let j=0; j<userProjectListProjects.projects[i].todos.length; j++) {
+          let toDo = new ToDo(
+            userProjectListProjects.projects[i].todos[j].title, 
+            userProjectListProjects.projects[i].todos[j].dueDate,
+            userProjectListProjects.projects[i].todos[j].priority,
+            userProjectListProjects.projects[i].todos[j].done)
+          
+          project.addToDoToProject(toDo)
+          
+  
+        } 
+        userProjectList.addProjectToProjectList(project)
+        
+      }
+      
+
+
+    for (let i=0; i < userProjectList.projects.length; i++) {
+      projectList.append(new DisplayProject(userProjectList.projects[i], i).displayProjectDOM())
+    }
+}
 
 let addProjectButton = new CreateAddButton()
 projectList.append(addProjectButton.createAddButton('Project'))
+
+
+
+
+window.addEventListener('beforeunload', () => {
+    localStorage.todolist = JSON.stringify(userProjectList)
+})
+
+
+
 
 
 /////////////////////
@@ -91,7 +141,7 @@ let card = addProject.createMenu()
 let input = addProject.createProjectMenu()
 
 card.append(input)
-wrapper.append(card)
+
 
 const overlay = addProject.createOverlay()
 body.append(overlay)
@@ -100,53 +150,23 @@ let addToDo = new CreateTodoMenu('ToDo')
 let cardToDo = addToDo.createMenu()
 let inputToDo = addToDo.createTodoMenu()
 cardToDo.append(inputToDo)
+
+
+wrapper.append(card)
 wrapper.append(cardToDo)
 ///////////////////////////////
-
-
 
 const openAddProject = document.querySelector('#Project')
 const openAddToDo = document.querySelector('#ToDo')
 const closeModalButtons = document.querySelectorAll('#closeModal')
 
-
-
 openAddProject.addEventListener('click', () => {
     const modal = document.querySelector('#addProjectCard')
     openModal(modal)
-    addProjectByName(modal) 
-  })
+    addProjectByName(modal, userProjectList, projectList) 
+})
 
-
-function addProjectByName(modal) {
-  const addNewProjectButton = document.querySelector('#NewProject')
-
-  addNewProjectButton.addEventListener('click', () => {
-      const projectTitle = document.querySelector('.input-title')
-      const project = new Project(`${projectTitle.value}`)
-      userProjectList.addProjectToProjectList(project)
-      projectList.append(new DisplayProject(project, userProjectList.projects.length-1).showProjectDOM())
-      closeModal(modal)
-    }, { once: true })
-}
-
-
-projectList.addEventListener('click', function(evt) {
-  if(evt.target.closest('.delete-project-button')) {
-    const projectToDelete = evt.target.getAttribute('id')
-    console.log(projectToDelete)
-    userProjectList.deleteProjectFromProjectList(projectToDelete)
-    console.log(userProjectList)
-    projectList.removeChild(evt.target.parentElement)
-    const ButtonsList = document.querySelectorAll('#Project ~ .project-button')
-    const arr = Array.from(ButtonsList);
-    arr.forEach(project => {
-      project.id = arr.indexOf(project)
-    })
-    }
-    })
-
-
+projectList.addEventListener('click', (evt) => deleteProject(evt, userProjectList, projectList)) 
 
 
 overlay.addEventListener('click', () => {
@@ -163,145 +183,5 @@ closeModalButtons.forEach(button => {
   })
 })
 
-function openModal(modal) {
-  if (modal == null) return
-  modal.classList.add('active')
-  overlay.classList.add('active')
-}
+projectList.addEventListener('click',(evt) => showTodoList(evt, main, userProjectList))
 
-function closeModal(modal) {
-  if (modal == null) return
-  const titles = document.querySelectorAll('.input-title')
-  titles.forEach(title => {
-    title.value = ''
-  })
-  const date = document.querySelector('.todo-date-input')
-  const priorityMedium = document.querySelector('input[value="medium"]')
-  date.value = `${getDate()}`
-  priorityMedium.checked = true
-  modal.classList.remove('active')
-  overlay.classList.remove('active')
-}
-
-
-function getDate() {
-    let now = new Date()
-    let day = ("0" + now.getDate()).slice(-2)
-    let month = ("0" + (now.getMonth() + 1)).slice(-2)
-    return now.getFullYear() + "-" + (month) + "-" + (day)
-}
-
-
-
-let todoexample = new ToDo('Do smth', '29.01.12', 'high')
-let todoexample2 = new ToDo('todoexample2', '01.01.42', 'low')
-let todoexample3 = new ToDo('todoexample3', '11.11.23', 'medium')
-
-example.addToDoToProject(todoexample)
-example.addToDoToProject(todoexample2)
-example.addToDoToProject(todoexample3)
-
-
-let todoexample4 = new ToDo('1', '01.01.23', 'medium')
-let todoexample5 = new ToDo('todoexample2323', '01.01.23', 'medium')
-let todoexample6 = new ToDo('todoexample3213231', '01.01.23', 'medium')
-
-example2.addToDoToProject(todoexample4)
-example2.addToDoToProject(todoexample5)
-example2.addToDoToProject(todoexample6)
-
-userProjectList.addProjectToProjectList(example)
-userProjectList.addProjectToProjectList(example2)
-
-
-
-projectList.addEventListener('click', function(evt) {
-  if(evt.target.closest('.project-button :not(.add-project-button)')) {
-    if (document.querySelector('.project-container')) {
-      main.removeChild(document.querySelector('.project-container'))
-    }
-    const targetProject = userProjectList.projects[evt.target.closest('.project-button').getAttribute('id')]
-    let showProject =  new CreateProjectContainer()
-    let showProjectContainer = showProject.createprojectContainer(targetProject)
-    let showToDos = showProject.createtoDoContainer(targetProject)
-    main.append(showProjectContainer)
-    for (let i=0; i < targetProject.todos.length; i++) {
-      let showtodoexample = new DisplayToDo().DOM(targetProject.todos[i], i)
-      showToDos.append(showtodoexample)
-    }
-    showProjectContainer.append(showToDos)
-    
-    showProjectContainer.addEventListener('click', function(evt) {
-      if(evt.target.closest('.check-todo-item')) {
-          const targetToDo = targetProject.todos[evt.target.closest('.todo-item').getAttribute('id')]
-          targetToDo.changeDone()
-          const checked = document.createElement('img')
-          if (targetToDo.done === true) {
-            checked.classList.add('project-icon')
-            checked.src = Check
-            evt.target.append(checked)
-          } else {
-            evt.target.remove(checked)
-          }
-      }
-    })
-
-    showProjectContainer.addEventListener('click', function(evt) {
-      if(evt.target.closest('.todo-item > .delete-project-button')) {
-        const todoContainer = document.querySelector('.todo-container')
-        const toDoToDelete = evt.target.getAttribute('id')
-        console.log(toDoToDelete)
-        targetProject.deleteToDoFromProject(toDoToDelete)
-        console.log(targetProject)
-        todoContainer.removeChild(evt.target.parentElement)
-        const toDosList = document.querySelectorAll('.todo-item')
-        const arr = Array.from(toDosList);
-        arr.forEach(todo => {
-          todo.id = arr.indexOf(toDosList)
-        })
-        }
-        })
-
-    const openAddToDo = document.querySelector('#ToDo')
-    openAddToDo.addEventListener('click', () => {
-      const modal = document.querySelector('#addToDoCard')
-      openModal(modal)
-      addToDoByName(modal, targetProject) 
-    })
-    }
-    })
-
-  
-
-
-function NormalizeDate(date) {
-  let dateDay = date[date.length-2] + date[date.length-1]
-  let monthDate = date[date.length-5] + date[date.length-4]
-  let yearDate = date[date.length-8] + date[date.length-7]
-  return `${dateDay}.${monthDate}.${yearDate}`
-}
-
-function addToDoByName(modal, targetProject) {
-  const addNewToDoButton = document.querySelector('#NewToDo')
-
-  addNewToDoButton.addEventListener('click', () => {
-      const todoContainer = document.querySelector('.todo-container')
-      const ToDoTitle = document.querySelector('input[placeholder="ToDo Title"]')
-      const ToDoDueDate = document.querySelector('.todo-date-input')
-      const ToDoPriority = document.querySelector('input[name="priority"]:checked')
-      
-      const todo = new ToDo(`${ToDoTitle.value}`, `${NormalizeDate(ToDoDueDate.value)}`, `${ToDoPriority.value}`)
-      
-      targetProject.addToDoToProject(todo)
-
-      todoContainer.append(new DisplayToDo().DOM(todo, targetProject.todos.length - 1))
-
-      closeModal(modal)
-    }, { once: true })
-  }
-
-
-
-menuBtn.addEventListener('click', () => {
-    projectList.classList.toggle('hidden')
-})
